@@ -1,0 +1,46 @@
+name: Deployment Stage - Deploy Service
+
+on:
+  workflow_call:
+    secrets:
+      scw_access_key:
+        required: true
+      scw_secret_key:
+        required: true
+      scw_project_id:
+        required: true
+      env_vars:
+        required: true
+    inputs:
+      image_version:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-22.04
+    environment: ${{ inputs.environment }}
+    env:
+      TF_VAR_scw_access_key: ${{ secrets.scw_access_key }}
+      TF_VAR_scw_secret_key: ${{ secrets.scw_secret_key }}
+      TF_VAR_scw_project_id: ${{ secrets.scw_project_id }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.scw_access_key }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.scw_secret_key }}
+      TF_VAR_image_version: ${{ inputs.image_version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set Up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Apply
+        run: |
+          cd infrastructure/
+          terraform init
+          terraform apply --auto-approve -input=false

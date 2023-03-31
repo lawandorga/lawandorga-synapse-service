@@ -1,0 +1,3 @@
+*kubeconfig*
+*.tfvars
+*.tfvars.json
