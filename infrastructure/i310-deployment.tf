@@ -7,7 +7,7 @@ resource "kubernetes_deployment_v1" "deployment" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
     selector {
       match_labels = {
@@ -40,7 +40,7 @@ resource "kubernetes_deployment_v1" "deployment" {
           }
 
           port {
-            container_port = 8080
+            container_port = 8008
           }
         }
       }

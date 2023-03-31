@@ -16,3 +16,8 @@ jobs:
       scw_access_key: ${{ secrets.SCW_ACCESS_KEY }}
       scw_project_id: ${{ secrets.SCW_PROJECT_ID }}
       scw_secret_key: ${{ secrets.SCW_SECRET_KEY }}
+      env_vars: '{
+        "SYNAPSE_DB_PASSWORD": "${{ secrets.SYNAPSE_DB_PASSWORD }}",
+        "SYNAPSE_OIDC_SECRET": "${{ secrets.SYNAPSE_OIDC_SECRET }}",
+        "SYNAPSE_S3_SECRET_KEY": "${{ secrets.SYNAPSE_S3_SECRET_KEY }}"
+        }'
