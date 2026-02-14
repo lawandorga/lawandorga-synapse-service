@@ -12,9 +12,16 @@ data "terraform_remote_state" "cluster" {
     bucket                      = "lawandorga-main-infrastructure"
     key                         = "cluster.tfstate"
     region                      = "fr-par"
-    endpoint                    = "https://s3.fr-par.scw.cloud"
+
+    endpoints = {
+      s3 = "https://s3.fr-par.scw.cloud"
+    }
+
     skip_region_validation      = true
     skip_credentials_validation = true
+    skip_requesting_account_id  = true
+
+    profile = "lawandorga"
   }
 }
 
@@ -24,9 +31,16 @@ data "terraform_remote_state" "cert_manager" {
     bucket                      = "lawandorga-main-infrastructure"
     key                         = "cert-manager.tfstate"
     region                      = "fr-par"
-    endpoint                    = "https://s3.fr-par.scw.cloud"
+
+    endpoints = {
+      s3 = "https://s3.fr-par.scw.cloud"
+    }
+
     skip_region_validation      = true
     skip_credentials_validation = true
+    skip_requesting_account_id  = true
+
+    profile = "lawandorga"
   }
 }
 
@@ -41,7 +55,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     host                   = data.scaleway_k8s_cluster.cluster.kubeconfig.0.host
     token                  = data.scaleway_k8s_cluster.cluster.kubeconfig.0.token
     cluster_ca_certificate = base64decode(data.scaleway_k8s_cluster.cluster.kubeconfig.0.cluster_ca_certificate)

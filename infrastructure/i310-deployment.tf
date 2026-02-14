@@ -46,6 +46,7 @@ resource "kubernetes_deployment_v1" "deployment" {
           readiness_probe {
             http_get {
               port = 8080
+              path = "/"
               http_header {
                 name = "Host"
                 value = "synapse.law-orga.de"
