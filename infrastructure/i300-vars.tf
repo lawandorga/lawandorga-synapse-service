@@ -17,3 +17,18 @@ variable "env_vars" {
   type      = map(string)
   sensitive = true
 }
+
+variable "signal_db_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "signal_as_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "signal_hs_token" {
+  type      = string
+  sensitive = true
+}

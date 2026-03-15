@@ -798,7 +798,8 @@ room_invite_state_types:
 
 
 # A list of application service config file to use
-app_service_config_files: []
+app_service_config_files:
+  - /data/signal-registration.yaml
 
 
 # macaroon_secret_key: <PRIVATE STRING>

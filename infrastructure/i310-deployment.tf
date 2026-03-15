@@ -43,6 +43,12 @@ resource "kubernetes_deployment_v1" "deployment" {
             container_port = 8080
           }
 
+          volume_mount {
+            name       = "signal-registration"
+            mount_path = "/data/signal-registration.yaml"
+            sub_path   = "registration.yaml"
+          }
+
           readiness_probe {
             http_get {
               port = 8080
@@ -52,6 +58,13 @@ resource "kubernetes_deployment_v1" "deployment" {
                 value = "synapse.law-orga.de"
               }
             }
+          }
+        }
+
+        volume {
+          name = "signal-registration"
+          secret {
+            secret_name = kubernetes_secret_v1.signal_bridge_registration.metadata[0].name
           }
         }
       }
