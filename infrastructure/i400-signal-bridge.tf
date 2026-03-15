@@ -44,11 +44,6 @@ resource "kubernetes_deployment_v1" "signal_bridge" {
     }
   }
 
-  timeouts {
-    create = "5m"
-    update = "5m"
-  }
-
   spec {
     replicas = 1
 
@@ -69,7 +64,6 @@ resource "kubernetes_deployment_v1" "signal_bridge" {
         container {
           image = "dock.mau.dev/mautrix/signal:latest"
           name  = "mautrix-signal-container"
-          args  = ["--no-update"]
 
           port {
             container_port = 29328
