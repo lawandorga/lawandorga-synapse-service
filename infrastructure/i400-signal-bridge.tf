@@ -11,6 +11,8 @@ resource "kubernetes_secret_v1" "signal_bridge_registration" {
       hs_token: ${var.signal_hs_token}
       sender_localpart: signalbot
       rate_limited: false
+      push_ephemeral: true
+      de.sorunome.msc2409.push_ephemeral: true
       namespaces:
         users:
           - regex: '@signal_.*:law-orga\.de'
@@ -31,7 +33,25 @@ resource "kubernetes_secret_v1" "signal_bridge_config" {
       signal_db_password = urlencode(var.signal_db_password)
       signal_as_token    = var.signal_as_token
       signal_hs_token    = var.signal_hs_token
+      signal_pickle_key  = var.signal_pickle_key
     })
+  }
+}
+
+# PVC: persistent bridge state (crypto store, etc.)
+resource "kubernetes_persistent_volume_claim_v1" "signal_bridge_data" {
+  metadata {
+    name = "mautrix-signal-data"
+  }
+
+  spec {
+    access_modes = ["ReadWriteOnce"]
+
+    resources {
+      requests = {
+        storage = "5Gi"
+      }
+    }
   }
 }
 
@@ -84,7 +104,9 @@ resource "kubernetes_deployment_v1" "signal_bridge" {
 
         volume {
           name = "data"
-          empty_dir {}
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim_v1.signal_bridge_data.metadata[0].name
+          }
         }
 
         volume {

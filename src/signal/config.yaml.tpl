@@ -11,6 +11,15 @@ bridge:
         "*": relay
         "law-orga.de": user
 
+# Encryption config.
+encryption:
+    allow: true
+    default: true
+    require: false
+    appservice: true
+    self_sign: true
+    pickle_key: ${signal_pickle_key}
+
 # Config for the bridge's database.
 database:
     type: postgres
@@ -41,7 +50,7 @@ appservice:
 
 # Logging config.
 logging:
-    min_level: info
+    min_level: debug
     writers:
         - type: stdout
           format: pretty-colored

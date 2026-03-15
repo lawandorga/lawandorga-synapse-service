@@ -32,3 +32,8 @@ variable "signal_hs_token" {
   type      = string
   sensitive = true
 }
+
+variable "signal_pickle_key" {
+  type      = string
+  sensitive = true
+}
