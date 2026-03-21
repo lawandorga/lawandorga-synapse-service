@@ -728,6 +728,13 @@ enable_metrics: False
 ## API Configuration ##
 
 
+# Experimental features required for end-to-bridge encryption in appservice
+# ("sync-less") mode for mautrix bridges.
+experimental_features:
+  msc3202_transaction_extensions: true
+  msc2409_to_device_messages_enabled: true
+
+
 # A list of application service config file to use
 app_service_config_files:
   - /data/signal-registration.yaml

@@ -1,6 +1,6 @@
 variable "image_version" {
   type    = string
-  default = "0026f910446a27226165e827113f93522e293ac6"
+  default = "c2cab33608f927f496ef944ac3e1509547e62f7e"
 }
 
 variable "repository_name" {

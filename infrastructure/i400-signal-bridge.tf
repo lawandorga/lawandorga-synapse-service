@@ -11,6 +11,7 @@ resource "kubernetes_secret_v1" "signal_bridge_registration" {
       hs_token: ${var.signal_hs_token}
       sender_localpart: signalbot
       rate_limited: false
+      org.matrix.msc3202: true
       push_ephemeral: true
       de.sorunome.msc2409.push_ephemeral: true
       namespaces:
