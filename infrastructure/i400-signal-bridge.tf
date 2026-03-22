@@ -82,9 +82,27 @@ resource "kubernetes_deployment_v1" "signal_bridge" {
       }
 
       spec {
+        service_account_name            = kubernetes_service_account_v1.signal_bridge.metadata[0].name
+        automount_service_account_token = false
+
         container {
-          image = "dock.mau.dev/mautrix/signal:latest"
+          image = "dock.mau.dev/mautrix/signal:v26.03"
           name  = "mautrix-signal-container"
+
+          command     = ["/usr/bin/mautrix-signal"]
+          args        = ["-c", "/data/config.yaml", "--no-update"]
+          working_dir = "/data"
+
+          security_context {
+            allow_privilege_escalation = false
+            read_only_root_filesystem  = false
+            run_as_non_root             = true
+            run_as_user                 = 1337
+            run_as_group                = 1337
+            capabilities {
+              drop = ["ALL"]
+            }
+          }
 
           port {
             container_port = 29328
@@ -99,6 +117,7 @@ resource "kubernetes_deployment_v1" "signal_bridge" {
             name       = "config"
             mount_path = "/data/config.yaml"
             sub_path   = "config.yaml"
+            read_only  = true
           }
 
         }
@@ -118,6 +137,12 @@ resource "kubernetes_deployment_v1" "signal_bridge" {
         }
       }
     }
+  }
+}
+
+resource "kubernetes_service_account_v1" "signal_bridge" {
+  metadata {
+    name = "mautrix-signal"
   }
 }
 

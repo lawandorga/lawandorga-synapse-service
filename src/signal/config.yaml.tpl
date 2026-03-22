@@ -8,7 +8,6 @@ bridge:
     command_prefix: '!signal'
     personal_filtering_spaces: true
     permissions:
-        "*": relay
         "law-orga.de": user
 
 # Encryption config.
@@ -50,7 +49,7 @@ appservice:
 
 # Logging config.
 logging:
-    min_level: debug
+    min_level: warn
     writers:
         - type: stdout
           format: pretty-colored

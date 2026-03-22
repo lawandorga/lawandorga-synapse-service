@@ -23,6 +23,9 @@ resource "kubernetes_deployment_v1" "deployment" {
       }
 
       spec {
+        service_account_name            = kubernetes_service_account_v1.synapse.metadata[0].name
+        automount_service_account_token = false
+
         image_pull_secrets {
           name = data.terraform_remote_state.cluster.outputs.image_pull_secret_name
         }
@@ -69,5 +72,11 @@ resource "kubernetes_deployment_v1" "deployment" {
         }
       }
     }
+  }
+}
+
+resource "kubernetes_service_account_v1" "synapse" {
+  metadata {
+    name = "${var.repository_name}"
   }
 }
